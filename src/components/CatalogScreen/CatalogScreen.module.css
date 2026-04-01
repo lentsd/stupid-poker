@@ -27,13 +27,13 @@
   max-height: 80dvh;
   display: flex;
   flex-direction: column;
-  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: slideUp 0.25s ease-out;
   padding-bottom: env(safe-area-inset-bottom);
 }
 
 @keyframes slideUp {
   from {
-    transform: translateY(100%);
+    transform: translateY(40px);
     opacity: 0;
   }
   to {

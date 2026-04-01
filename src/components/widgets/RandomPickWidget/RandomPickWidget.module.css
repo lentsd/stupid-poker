@@ -64,6 +64,43 @@
   width: 100%;
 }
 
+/* Spinner dots shown during animation instead of cycling text */
+.spinnerDots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinnerDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  animation: dotBounce 0.9s ease-in-out infinite;
+}
+
+.spinnerDots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.spinnerDots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes dotBounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
 .placeholder {
   font-size: 2rem;
   opacity: 0.25;

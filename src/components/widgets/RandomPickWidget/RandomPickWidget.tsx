@@ -30,33 +30,47 @@ export function RandomPickWidget({
   const [playerCount, setPlayerCount] = useState<number>(4);
   const [countSet, setCountSet] = useState(!needsPlayerCount);
 
+  // When needsPlayerCount, limit the available items to playerCount
+  const effectiveItems = needsPlayerCount ? items.slice(0, playerCount) : items;
+
+  const handleSetPlayerCount = (n: number) => {
+    setPlayerCount(n);
+    // Reset state when player count changes
+    setUsed([]);
+    setResult(null);
+    setHidden(false);
+  };
+
   const pick = () => {
     if (spinning) return;
     setHidden(false);
     setSpinning(true);
 
-    let pool = perPlayer ? items.filter((i) => !used.includes(i)) : items;
+    let pool = perPlayer ? effectiveItems.filter((i) => !used.includes(i)) : effectiveItems;
 
     if (pool.length === 0) {
-      pool = items;
+      pool = effectiveItems;
       setUsed([]);
     }
 
+    // Animation: 3 seconds total, 30 ticks at ~100ms each
+    const totalDuration = 3000;
+    const tickInterval = 100;
+    const maxTicks = Math.floor(totalDuration / tickInterval);
     let ticks = 0;
-    const maxTicks = 10;
-    let lastPicked = pool[Math.floor(Math.random() * pool.length)];
+    // Pick the final result upfront so we never show it during animation
+    const finalResult = pool[Math.floor(Math.random() * pool.length)];
 
     const interval = setInterval(() => {
-      lastPicked = pool[Math.floor(Math.random() * pool.length)];
-      setResult(lastPicked);
       ticks++;
       if (ticks >= maxTicks) {
         clearInterval(interval);
-        setResult(lastPicked);
-        if (perPlayer) setUsed((prev) => [...prev, lastPicked]);
+        setResult(finalResult);
+        if (perPlayer) setUsed((prev) => [...prev, finalResult]);
         setSpinning(false);
       }
-    }, 80);
+      // Don't update result during spinning — show spinner in UI instead
+    }, tickInterval);
   };
 
   const reset = () => {
@@ -74,7 +88,7 @@ export function RandomPickWidget({
             <button
               key={n}
               className={`${styles.countBtn} ${playerCount === n ? styles.countBtnActive : ''}`}
-              onClick={() => setPlayerCount(n)}
+              onClick={() => handleSetPlayerCount(n)}
             >
               {n}
             </button>
@@ -91,15 +105,21 @@ export function RandomPickWidget({
     <div className={styles.wrapper}>
       <p className={styles.label}>
         {label}
-        {perPlayer ? ` (${used.length}/${items.length})` : ''}
+        {perPlayer ? ` (${used.length}/${needsPlayerCount ? playerCount : items.length})` : ''}
       </p>
 
       {/* Result box */}
       {!hidden && (
         <div
-          className={`${styles.resultBox} ${spinning ? styles.spinning : ''} ${result ? styles.hasResult : ''}`}
+          className={`${styles.resultBox} ${spinning ? styles.spinning : ''} ${result && !spinning ? styles.hasResult : ''}`}
         >
-          {result ? (
+          {spinning ? (
+            <span className={styles.spinnerDots}>
+              <span />
+              <span />
+              <span />
+            </span>
+          ) : result ? (
             <span className={styles.resultText}>{result}</span>
           ) : (
             <span className={styles.placeholder}>{emoji}</span>
@@ -118,7 +138,7 @@ export function RandomPickWidget({
       <div className={styles.actions}>
         {(!result || spinning) && (
           <button className={styles.button} onClick={pick} disabled={spinning}>
-            {spinning ? '...' : buttonLabel}
+            {spinning ? 'Выбираем...' : buttonLabel}
           </button>
         )}
 
@@ -129,11 +149,9 @@ export function RandomPickWidget({
                 Скрыть
               </button>
             )}
-            {hidden === false && (
-              <button className={styles.button} onClick={pick}>
-                {perPlayer ? 'Следующий' : buttonLabel}
-              </button>
-            )}
+            <button className={styles.button} onClick={pick}>
+              {perPlayer ? 'Следующий' : buttonLabel}
+            </button>
             <button className={styles.resetButton} onClick={reset} aria-label="Сбросить">
               ↺
             </button>
@@ -149,7 +167,7 @@ export function RandomPickWidget({
 
       {perPlayer && used.length > 0 && !spinning && (
         <p className={styles.hint}>
-          Получили: {used.length} / {items.length}
+          Получили: {used.length} / {needsPlayerCount ? playerCount : items.length}
         </p>
       )}
     </div>

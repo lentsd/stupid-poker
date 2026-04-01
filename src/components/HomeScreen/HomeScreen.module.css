@@ -1,0 +1,185 @@
+.screen {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 1;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.logo {
+  font-size: 4rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 24px rgba(250, 100, 0, 0.5));
+  animation: float 3s ease-in-out infinite;
+}
+
+.logoIcon {
+  display: block;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.title {
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.titleAccent {
+  color: var(--color-accent);
+}
+
+.subtitle {
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  color: rgba(255, 255, 255, 0.45);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.startButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 18px 40px;
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+  box-shadow: 0 8px 32px rgba(250, 100, 0, 0.35);
+  width: 100%;
+  max-width: 320px;
+  justify-content: center;
+}
+
+.startButton:hover {
+  transform: scale(1.04);
+  box-shadow: 0 12px 40px rgba(250, 100, 0, 0.5);
+  background: #ff7a1a;
+}
+
+.startButton:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 16px rgba(250, 100, 0, 0.3);
+}
+
+.catalogButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 14px 32px;
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+  transition:
+    transform 0.15s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+  width: 100%;
+  max-width: 320px;
+  justify-content: center;
+}
+
+.catalogButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.catalogButton:active {
+  transform: scale(0.97);
+}
+
+.buttonIcon {
+  font-size: 1.2em;
+}
+
+/* Decorative suit symbols */
+.decoration {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.card {
+  position: absolute;
+  font-size: clamp(4rem, 10vw, 8rem);
+  opacity: 0.04;
+  font-weight: 900;
+  user-select: none;
+}
+
+.card:nth-child(1) {
+  top: 5%;
+  left: 3%;
+  transform: rotate(-15deg);
+  color: #fff;
+}
+
+.card:nth-child(2) {
+  top: 10%;
+  right: 4%;
+  transform: rotate(12deg);
+  color: var(--color-accent);
+}
+
+.card:nth-child(3) {
+  bottom: 8%;
+  left: 5%;
+  transform: rotate(8deg);
+  color: var(--color-accent);
+}
+
+.card:nth-child(4) {
+  bottom: 5%;
+  right: 3%;
+  transform: rotate(-10deg);
+  color: #fff;
+}

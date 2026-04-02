@@ -87,14 +87,7 @@ export function DiceWidget({ sides = 6, min = 1, label = 'Бросок куби�
           </svg>
         )}
       </button>
-      {displayValue !== null && <p className={styles.result}>{sides > 6 ? displayValue : ''}</p>}
-      <p className={styles.hint}>
-        {value === null
-          ? 'Нажми, чтобы бросить'
-          : rolling
-            ? 'Бросаем...'
-            : `Выпало: ${displayValue}`}
-      </p>
+      <p className={styles.hint}>{value === null ? 'Нажми, чтобы бросить' : ''}</p>
     </div>
   );
 }
